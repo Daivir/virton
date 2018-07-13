@@ -3,12 +3,12 @@ namespace Virton\Helper;
 
 class FileHelper
 {
-	public static function getContent(string $content)
+	public static function getContent(string $content): ?string
 	{
 		if (file_exists($content)) {
 			return file_get_contents($content);
 		}
-		return $content;
+		return null;
 	}
 
 	/**
