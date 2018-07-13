@@ -1,0 +1,18 @@
+<?php
+
+return [
+    'paths' => [
+        'migrations' => "./db/migrations",
+        'seeds' => "./db/seeds/"
+    ],
+    'environments' => [
+        'default_database' => 'development',
+        'development' => [
+            'adapter' => 'mysql',
+            'host' => "",
+            'name' => "",
+            'user' => "",
+            'pass' => ""
+        ]
+    ]
+];

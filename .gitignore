@@ -1,0 +1,5 @@
+.idea
+vendor
+package.lock
+phinx.php
+composer.phar

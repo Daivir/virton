@@ -1,0 +1,41 @@
+{
+    "name": "daivir/virton",
+    "description": "Backend PHP Library",
+    "type": "library",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daivir",
+            "email": "32001784+Daivir@users.noreply.github.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Virton\\": "src",
+            "Tests\\": "tests"
+        }
+    },
+    "require": {
+        "daivir/event-manager": "@dev",
+        "doctrine/cache": "^1.7",
+        "guzzlehttp/psr7": "^1.4",
+        "http-interop/response-sender": "^1.0",
+        "intervention/image": "^2.4",
+        "pagerfanta/pagerfanta": "^1.0",
+        "php-di/php-di": "^5.4",
+        "psr/container": "^1.0",
+        "psr/http-server-middleware": "^1.0",
+        "stripe/stripe-php": "^5.8",
+        "swiftmailer/swiftmailer": "^6.0",
+        "twig/twig": "^2.4",
+        "zendframework/zend-expressive-fastroute": "^2.1"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "^1.8",
+        "middlewares/whoops": "^1.0.0",
+        "phpunit/phpunit": "^6.3",
+        "robmorgan/phinx": "@dev",
+        "squizlabs/php_codesniffer": "^3.0"
+    }
+}
