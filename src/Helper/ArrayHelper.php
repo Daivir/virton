@@ -138,16 +138,7 @@ class ArrayHelper
 	 */
 	public static function parseJSON(string $jsonString): array
 	{
-		$jsonIterator = new \RecursiveIteratorIterator(
-			new \RecursiveArrayIterator(json_decode($jsonString, TRUE)),
-			\RecursiveIteratorIterator::SELF_FIRST);
-
-		$result = [];
-		foreach ($jsonIterator as $k => $v) {
-			$result[] = [$k => $v];
-		}
-
-		return $result;
+		return json_decode($jsonString, TRUE);
 	}
 
 	/**
