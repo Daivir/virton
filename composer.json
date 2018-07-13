@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=7.1",
         "daivir/event-manager": "@dev",
         "doctrine/cache": "^1.7",
         "guzzlehttp/psr7": "^1.4",
