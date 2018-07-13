@@ -2,7 +2,7 @@
     "name": "daivir/virton",
     "description": "Backend PHP Library",
     "type": "library",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "license": "MIT",
     "authors": [
         {
@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=7.1.0",
         "daivir/event-manager": "@dev",
         "doctrine/cache": "^1.7",
         "guzzlehttp/psr7": "^1.4",

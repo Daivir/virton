@@ -95,9 +95,7 @@ class EventManagerTest extends TestCase
         $this->manager->attach($event->getName(), $callbackA);
         $this->manager->attach($event->getName(), $callbackB);
         $this->manager->detach($event->getName(), $callbackB);
-
         $this->manager->trigger($event->getName());
-
         $this->expectOutputString('EventA');
     }
 
@@ -120,7 +118,7 @@ class EventManagerTest extends TestCase
 
         $this->manager->trigger($eventA->getName());
         $this->manager->trigger($eventB->getName());
-        
+
         $this->expectOutputString('EventB');
     }
 }
