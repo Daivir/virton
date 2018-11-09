@@ -13,15 +13,13 @@ class RouterFactory
     /**
      * @param ContainerInterface $container
      * @return Router
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container): Router
     {
         $cache = null;
         if ($container->get('env') === 'production') {
-            $cache = 'tmp/routes';
+            $cache = $container->get('paths.cache');
         }
-        return new Router($cache);
+        return new Router($container, $cache);
     }
 }

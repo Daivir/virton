@@ -54,7 +54,7 @@ class CombinedMiddleware implements RequestHandlerInterface, MiddlewareInterface
             return $this->handle($request);
         }
         if (is_callable($middleware)) {
-            $response = call_user_func_array($middleware, [$request, [$this, 'handle']]);
+            $response = call_user_func_array($middleware, [$request, [$this, 'process']]);
             if (is_string($response)) {
                 return new Response(200, [], $response);
             }

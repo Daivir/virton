@@ -15,6 +15,7 @@ class ArrayHelper
 
     /**
      * Check if the keys exist in an array.
+     *
      * @param array $keys
      * @param array $array
      * @return array|true
@@ -45,6 +46,14 @@ class ArrayHelper
         return $array;
     }
 
+    /**
+     * Find a string or an array from a key
+     * Ex: 'path' or 'path.*' ; '*.key' find all 'key' in each arrays
+     *
+     * @param string $index
+     * @param array $array
+     * @return null|string|array
+     */
     public static function find(string $index, array $array)
     {
         if (array_key_exists($index, $array)) {
@@ -70,6 +79,7 @@ class ArrayHelper
 
 	/**
 	 * Flatten a nested array at the same level.
+     *
 	 * @param array $array
 	 * @param string $join
 	 * @param null|string $prepend
@@ -138,7 +148,7 @@ class ArrayHelper
 	 */
 	public static function parseJSON(string $jsonString): array
 	{
-		return json_decode($jsonString, TRUE);
+		return json_decode($jsonString, true);
 	}
 
 	/**

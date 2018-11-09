@@ -2,8 +2,12 @@
 namespace Virton;
 
 use Virton\Router\Route;
-use Psr\Http\Message\ServerRequestInterface;
+use Virton\Helper\ArrayHelper;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Virton\Middleware\CombinedMiddleware;
 use Zend\Expressive\Router\FastRouteRouter;
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Expressive\Router\Route as ZendRoute;
 
 /**
@@ -17,14 +21,20 @@ class Router
 	/**
 	 * @var FastRouteRouter
 	 */
-	private $router;
+    private $router;
+    
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
     /**
      * Router constructor.
      * @param string|null $cache
      */
-	public function __construct(?string $cache = null)
+	public function __construct(ContainerInterface $container, ?string $cache = null)
 	{
+        $this->container = $container;
 		$this->router = new FastRouteRouter(null, null, [
 			FastRouteRouter::CONFIG_CACHE_ENABLED => !is_null($cache),
 			FastRouteRouter::CONFIG_CACHE_FILE => $cache
@@ -39,48 +49,74 @@ class Router
      */
 	public function any(string $path, $callback, ?string $name = null): void
     {
-        $this->router->addRoute(new ZendRoute($path, $callback, ['GET', 'POST', 'PUT', 'DELETE'], $name));
+        $this->run(['GET', 'POST', 'PUT', 'DELETE'], $path, $callback, $name);
     }
 
 	/**
 	 * Adds a route with GET method to the router system.
 	 * @param string $path
-	 * @param string|callable $callback
+	 * @param string|array|callable $callback
 	 * @param string $name
      * @return void
 	 */
 	public function get(string $path, $callback, ?string $name = null): void
 	{
-		$this->router->addRoute(new ZendRoute($path, $callback, ['GET'], $name));
-	}
+        $this->run(['GET'], $path, $callback, $name);
+    }
 
     /**
      * Adds a route with POST method to the router system.
      * @param string $path
-     * @param $callback
+     * @param string|array|callable $callback
      * @param string|null $name
      * @return void
      */
 	public function post(string $path, $callback, ?string $name = null): void
 	{
-		$this->router->addRoute(new ZendRoute($path, $callback, ['POST'], $name));
+		$this->run(['POST'], $path, $callback, $name);
 	}
 
     /**
      * Adds a route with DELETE method to the router system.
      * @param string $path
-     * @param $callback
+     * @param string|array|callable $callback
      * @param string|null $name
      */
 	public function delete(string $path, $callback, ?string $name = null): void
 	{
-		$this->router->addRoute(new ZendRoute($path, $callback, ['DELETE'], $name));
+		$this->run(['DELETE'], $path, $callback, $name);
 	}
 
+    /**
+     * Adds a route with OPTIONS method to the router system.
+     *
+     * @param string $path
+     * @param string|array|callable $callback
+     * @param string|null $name
+     * @return void
+     */
 	public function options(string $path, $callback, ?string $name = null): void
 	{
-		$this->router->addRoute(new ZendRoute($path, $callback, ['OPTIONS'], $name));
-	}
+		$this->run(['OPTIONS'], $path, $callback, $name);
+    }
+    
+    /**
+     * Run ZendRoute
+     *
+     * @param array $method
+     * @param string $path
+     * @param string|array|callable $callback
+     * @param string|null $name
+     * @return void
+     */
+    private function run(array $method, string $path, $callback, ?string $name = null): void
+    {
+        $middleware = new CombinedMiddleware(
+            $this->container,
+            is_string($callback) ? [$callback] : $callback
+        );
+        $this->router->addRoute(new ZendRoute($path, $middleware, ['GET'], $name));
+    }
 
     /**
      * Generates the routes of the 'Create Read Update Delete' action.
@@ -108,8 +144,8 @@ class Router
 		$result = $this->router->match($request); // instance of \Zend\Expressive\Router\RouteResult
 		if ($result->isSuccess()) {
 			return new Route(
-				$result->getMatchedRouteName(),
-				$result->getMatchedMiddleware(),
+                $result->getMatchedRouteName(),
+				$result->getMatchedRoute()->getMiddleware(),
 				$result->getMatchedParams()
 			);
 		}

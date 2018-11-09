@@ -30,7 +30,7 @@
         "stripe/stripe-php": "^5.8",
         "swiftmailer/swiftmailer": "^6.0",
         "twig/twig": "^2.4",
-        "zendframework/zend-expressive-fastroute": "^2.1"
+        "zendframework/zend-expressive-fastroute": "^3.0.1"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.8",
